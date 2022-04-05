@@ -6,15 +6,17 @@ public class PlayerMovement : MonoBehaviour
 {
   Rigidbody2D m_rb;
   float m_timeUntilShootReady;
-
-  [SerializeField] BulletPooler m_bulletPool;
-  [SerializeField] Vector2 m_playerMaxSpeed;
-  [SerializeField] float m_accelerationScalar = 1000;
-  [SerializeField] float m_jumpForce = 1000;
-  [SerializeField] float m_bulletSpawnOffset = 1;
-  [SerializeField] Camera m_camera;
-  [SerializeField] float m_firerate;
   bool m_playerFalling;
+
+  [SerializeField] BulletPooler bulletPool;
+  [SerializeField] Vector2 playerMaxSpeed;
+  [SerializeField] Camera playerCamera;
+
+  [SerializeField] float accelerationScalar = 1000.0f;
+  [SerializeField] float jumpForce = 1000.0f;
+  [SerializeField] float bulletSpawnOffset = 1.0f;
+  [SerializeField] float firerate = 1.0f;
+
   // Start is called before the first frame update
   void Start()
   {
@@ -22,29 +24,23 @@ public class PlayerMovement : MonoBehaviour
     m_timeUntilShootReady = 0.0f;
   }
 
-  Vector2 CalculateMovementForcesAndConstrainst()
+  void HandleMovement()
   {
     var xDir = Input.GetAxis("Horizontal");
-    Vector2 test = Vector2.right * xDir * Time.deltaTime * m_accelerationScalar;
+    Vector2 movementForce = Vector2.zero;
 
-    if (Mathf.Abs(m_rb.velocity.x) < m_playerMaxSpeed.x)
+    if (Mathf.Abs(m_rb.velocity.x) < playerMaxSpeed.x)
     {
-      return test;
+      movementForce = Vector2.right * xDir * Time.deltaTime * accelerationScalar;
     }
-    else
-    {
-      return Vector2.zero;
-    }
-  }
 
-  Vector2 HandleJump()
-  {
     if (Input.GetKeyDown("w"))
     {
       m_playerFalling = true;
-      return Vector2.up * m_jumpForce;
+      movementForce += Vector2.up * jumpForce;
     }
-    return Vector2.zero;
+
+    m_rb.AddForce(movementForce);
   }
 
   bool CanFire()
@@ -60,11 +56,11 @@ public class PlayerMovement : MonoBehaviour
   {
     if (Input.GetMouseButton(0) && CanFire())
     {
-      var mouseDir = m_camera.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-      var spawnpoint = transform.position + mouseDir.normalized * m_bulletSpawnOffset;
+      var mouseDir = playerCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+      var spawnpoint = transform.position + mouseDir.normalized * bulletSpawnOffset;
 
-      m_bulletPool.SpawnFriendlyBullet("BasicBullet", spawnpoint, mouseDir.normalized, 100);
-      m_timeUntilShootReady = m_firerate;
+      bulletPool.SpawnFriendlyBullet("BasicBullet", spawnpoint, mouseDir.normalized, 100);
+      m_timeUntilShootReady = firerate;
     }
 
     if (m_timeUntilShootReady > 0)
@@ -75,13 +71,7 @@ public class PlayerMovement : MonoBehaviour
 
   void HandleInput()
   {
-    if (!m_playerFalling)
-    {
-      var totalForce = CalculateMovementForcesAndConstrainst();
-      totalForce += HandleJump();
-      m_rb.AddForce(totalForce);
-    }
-
+    HandleMovement();
     HandleShooting();
   }
 
