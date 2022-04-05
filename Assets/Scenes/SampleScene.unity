@@ -267,13 +267,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd0d110d3e1bf8f4689b990554876f9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_bulletPool: {fileID: 863329354}
-  m_playerMaxSpeed: {x: 5, y: 0}
-  m_accelerationScalar: 1000
-  m_jumpForce: 500
-  m_bulletSpawnOffset: 1
-  m_camera: {fileID: 519420031}
-  m_firerate: 0.2
+  bulletPool: {fileID: 863329354}
+  playerMaxSpeed: {x: 1, y: 0}
+  playerCamera: {fileID: 519420031}
+  accelerationScalar: 1000
+  jumpForce: 1000
+  bulletSpawnOffset: 1
+  firerate: 0.1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

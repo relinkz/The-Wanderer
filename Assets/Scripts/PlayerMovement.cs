@@ -33,11 +33,13 @@ public class PlayerMovement : MonoBehaviour
     {
       movementForce = Vector2.right * xDir * Time.deltaTime * accelerationScalar;
     }
-
-    if (Input.GetKeyDown("w"))
+    if (!m_playerFalling)
     {
-      m_playerFalling = true;
-      movementForce += Vector2.up * jumpForce;
+      if (Input.GetKeyDown("w"))
+      {
+        m_playerFalling = true;
+        movementForce += Vector2.up * jumpForce;
+      }
     }
 
     m_rb.AddForce(movementForce);
