@@ -268,10 +268,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPool: {fileID: 863329354}
-  playerMaxSpeed: {x: 1, y: 0}
+  playerMaxSpeed: {x: 5, y: 5}
   playerCamera: {fileID: 519420031}
-  accelerationScalar: 1000
-  jumpForce: 1000
   bulletSpawnOffset: 1
   firerate: 0.1
 --- !u!1 &519420028
