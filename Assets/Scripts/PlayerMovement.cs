@@ -14,9 +14,10 @@ public class PlayerMovement : MonoBehaviour
 
   [SerializeField] float bulletSpawnOffset = 1.0f;
   [SerializeField] float firerate = 1.0f;
+  [SerializeField] float bulletSpeed = 100.0f;
 
-  // Start is called before the first frame update
-  void Start()
+    // Start is called before the first frame update
+    void Start()
   {
     m_rb = GetComponent<Rigidbody2D>();
     m_rb.gravityScale = 0.0f;
@@ -56,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
       Vector2 mouseDir = mousePos - playerPos;
       Vector2 spawnpoint = playerPos + (mouseDir.normalized * bulletSpawnOffset);
 
-      bulletPool.SpawnFriendlyBullet("BasicBullet", spawnpoint, mouseDir.normalized, 100);
+      bulletPool.SpawnFriendlyBullet("BasicBullet", spawnpoint, mouseDir.normalized, bulletSpeed);
       m_timeUntilShootReady = firerate;
     }
 

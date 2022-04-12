@@ -34,12 +34,6 @@ public class BulletPooler : MonoBehaviour
     }
   }
 
-  // Update is called once per frame
-  void Update()
-  {
-
-  }
-
   public void SpawnFriendlyBullet(string tag, Vector2 pos, Vector2 normalizedDir, float force)
   {
     var bullet = m_friendlyBullets[tag].Dequeue();
