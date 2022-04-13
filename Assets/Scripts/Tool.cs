@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public static class Tool
@@ -11,6 +9,11 @@ public static class Tool
 		TOP = 0x2,
 		BOT = 0x3
 	}
+
+	public static readonly float leftmostPosition = -20.0f; 
+	public static readonly float rightmostPosition = 20.0f;
+	public static readonly float downmostPosition = -5.0f;
+	public static readonly float upmostPosition = 5.0f;
 
 	public static string ConvertScreenSideGoalToString(ScreenSideGoal screenside)
 	{
@@ -33,9 +36,21 @@ public static class Tool
 
 		return "INVALID";
 	}
-	public static Vector2 GetRandomPointOnScreenboarder()
+	public static Vector2 GetRandomPointOnScreenboarder(ScreenSideGoal screenside)
 	{
-		return Vector2.zero;
-	}
+		var targetGoalPoint = Vector2.zero;
+		if (screenside == ScreenSideGoal.LEFT)
+			targetGoalPoint = new Vector2(leftmostPosition, Random.Range(downmostPosition, upmostPosition));
 
+		else if (screenside == ScreenSideGoal.RIGHT)
+			targetGoalPoint = new Vector2(rightmostPosition, Random.Range(downmostPosition, upmostPosition));
+
+		else if (screenside == ScreenSideGoal.BOT)
+			targetGoalPoint = new Vector2(Random.Range(leftmostPosition, rightmostPosition), downmostPosition);
+
+		else if (screenside == ScreenSideGoal.TOP)
+			targetGoalPoint = new Vector2(Random.Range(leftmostPosition, rightmostPosition), upmostPosition);
+
+		return targetGoalPoint;
+	}
 }
