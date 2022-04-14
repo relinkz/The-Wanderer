@@ -14,10 +14,8 @@ public class EnemySpawner : MonoBehaviour
 		for (int i = 0; i < enemiesToSpawn;	i++)
 		{
 			var spawnPos = Tool.GetRandomPointOnScreenboarder(Tool.ScreenSideGoal.RIGHT);
-			Debug.Log("Spawning at: " + spawnPos);
 			Instantiate(prefabs[i%2], spawnPos, prefabs[0].transform.rotation);
 		}
-		Debug.Log("wave: " + wave + "waveIncrease: " + waveIncrease);
 		if (waveCounter % waveIncrease == 0 && waveCounter != 0)
 		{
 			wave++;

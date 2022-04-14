@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
     crashing = false;
   }
 
-  void RestraintMovementFromCamera(Vector3 pos)
+  Vector2 RestraintMovementFromCamera(Vector3 pos)
 	{
     if (pos.x < minMovement.x)
     {
@@ -46,6 +46,8 @@ public class PlayerMovement : MonoBehaviour
     {
       pos.y = maxMovement.y;
     }
+
+    return pos;
   }
 
   void HandleMovement()
@@ -61,8 +63,7 @@ public class PlayerMovement : MonoBehaviour
     var pos = transform.position;
     pos += movementForce;
 
-    RestraintMovementFromCamera(pos);
-    transform.position = pos;
+    transform.position = RestraintMovementFromCamera(pos);
   }
 
   bool CanFire()

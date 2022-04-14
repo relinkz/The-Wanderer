@@ -18,13 +18,8 @@ public class Enemy : MonoBehaviour
 
 	private void StartFalling()
 	{
-		Debug.Log("Falling");
 		var rb = GetComponent<Rigidbody2D>();
 		rb.gravityScale = 1;
-		rb.AddTorque(Random.Range(dieTorqueMin, dieTorqueMax));
-
-		//var collider = GetComponent<BoxCollider2D>();
-		//collider.enabled = false;
 	}
 
 

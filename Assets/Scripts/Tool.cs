@@ -10,10 +10,10 @@ public static class Tool
 		BOT = 0x3
 	}
 
-	public static readonly float leftmostPosition = -18.0f; 
-	public static readonly float rightmostPosition = 23.0f;
-	public static readonly float downmostPosition = -5.0f;
-	public static readonly float upmostPosition = 5.0f;
+	public static readonly float leftmostPosition = -11.0f; 
+	public static readonly float rightmostPosition = 11.0f;
+	public static readonly float downmostPosition = -3.40f;
+	public static readonly float upmostPosition = 3.40f;
 
 	public static string ConvertScreenSideGoalToString(ScreenSideGoal screenside)
 	{
