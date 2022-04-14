@@ -23,8 +23,8 @@ public class Enemy : MonoBehaviour
 		rb.gravityScale = 1;
 		rb.AddTorque(Random.Range(dieTorqueMin, dieTorqueMax));
 
-		var collider = GetComponent<BoxCollider2D>();
-		collider.enabled = false;
+		//var collider = GetComponent<BoxCollider2D>();
+		//collider.enabled = false;
 	}
 
 

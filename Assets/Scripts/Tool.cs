@@ -10,8 +10,8 @@ public static class Tool
 		BOT = 0x3
 	}
 
-	public static readonly float leftmostPosition = -20.0f; 
-	public static readonly float rightmostPosition = 20.0f;
+	public static readonly float leftmostPosition = -18.0f; 
+	public static readonly float rightmostPosition = 23.0f;
 	public static readonly float downmostPosition = -5.0f;
 	public static readonly float upmostPosition = 5.0f;
 
@@ -53,4 +53,5 @@ public static class Tool
 
 		return targetGoalPoint;
 	}
+
 }
