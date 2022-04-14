@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-  Rigidbody2D m_rb;
-  float m_timeUntilShootReady;
+  Rigidbody2D rb;
+  float timeUntilShootReady;
   bool crashing;
 
   [SerializeField] BulletPooler bulletPool;
@@ -15,14 +15,37 @@ public class PlayerMovement : MonoBehaviour
   [SerializeField] float bulletSpawnOffset = 1.0f;
   [SerializeField] float firerate = 1.0f;
   [SerializeField] float bulletSpeed = 100.0f;
+  [SerializeField] Vector2 maxMovement;
+  [SerializeField] Vector2 minMovement;
 
-    // Start is called before the first frame update
-    void Start()
+  // Start is called before the first frame update
+  void Start()
   {
-    m_rb = GetComponent<Rigidbody2D>();
-    m_rb.gravityScale = 0.0f;
-    m_timeUntilShootReady = 0.0f;
+    rb = GetComponent<Rigidbody2D>();
+    rb.gravityScale = 0.0f;
+    timeUntilShootReady = 0.0f;
     crashing = false;
+  }
+
+  void RestraintMovementFromCamera(Vector3 pos)
+	{
+    if (pos.x < minMovement.x)
+    {
+      pos.x = minMovement.x;
+    }
+    else if (pos.x > maxMovement.x)
+    {
+      pos.x = maxMovement.x;
+    }
+
+    if (pos.y < minMovement.y)
+    {
+      pos.y = minMovement.y;
+    }
+    else if (pos.y > maxMovement.y)
+    {
+      pos.y = maxMovement.y;
+    }
   }
 
   void HandleMovement()
@@ -35,12 +58,16 @@ public class PlayerMovement : MonoBehaviour
     movementForce += Vector3.right * xDir * Time.deltaTime * playerMaxSpeed.x;
     movementForce += Vector3.up * yDir * Time.deltaTime * playerMaxSpeed.y;
 
-    transform.position += movementForce;
+    var pos = transform.position;
+    pos += movementForce;
+
+    RestraintMovementFromCamera(pos);
+    transform.position = pos;
   }
 
   bool CanFire()
   {
-    if (m_timeUntilShootReady <= 0.0f)
+    if (timeUntilShootReady <= 0.0f)
     {
       return true;
     }
@@ -58,12 +85,12 @@ public class PlayerMovement : MonoBehaviour
       Vector2 spawnpoint = playerPos + (mouseDir.normalized * bulletSpawnOffset);
 
       bulletPool.SpawnFriendlyBullet("BasicBullet", spawnpoint, mouseDir.normalized, bulletSpeed);
-      m_timeUntilShootReady = firerate;
+      timeUntilShootReady = firerate;
     }
 
-    if (m_timeUntilShootReady > 0)
+    if (timeUntilShootReady > 0)
     {
-      m_timeUntilShootReady -= Time.deltaTime;
+      timeUntilShootReady -= Time.deltaTime;
     }
   }
 
@@ -84,8 +111,8 @@ public class PlayerMovement : MonoBehaviour
   private void OnCollisionEnter2D(Collision2D collision)
   {
     crashing = true;
-    m_rb.gravityScale = 1.0f;
-    m_rb.AddTorque(0.3f, ForceMode2D.Impulse);
+    rb.gravityScale = 1.0f;
+    rb.AddTorque(0.3f, ForceMode2D.Impulse);
     GetComponent<BoxCollider2D>().enabled = false;
   }
 }
