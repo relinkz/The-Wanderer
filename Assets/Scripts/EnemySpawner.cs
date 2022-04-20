@@ -8,7 +8,7 @@ public class EnemySpawner : MonoBehaviour
 	public uint waveIncrease;
 	uint waveCounter;
 
-	void SpawnWave()
+	public void SpawnWave()
 	{
 		var enemiesToSpawn = wave;
 		for (int i = 0; i < enemiesToSpawn;	i++)
@@ -28,12 +28,10 @@ public class EnemySpawner : MonoBehaviour
 	void Start()
 	{
 		waveCounter = 0;
-		InvokeRepeating("SpawnWave", 0, 5 );
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-
 	}
 }

@@ -1,22 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
+
 
 public class PlayerMovement : MonoBehaviour
 {
   Rigidbody2D rb;
   float timeUntilShootReady;
   bool crashing;
-
-  [SerializeField] BulletPooler bulletPool;
+	GameManager gameManager;
+	[SerializeField] BulletPooler bulletPool;
   [SerializeField] Vector2 playerMaxSpeed;
   [SerializeField] Camera playerCamera;
 
   [SerializeField] float bulletSpawnOffset = 1.0f;
   [SerializeField] float firerate = 1.0f;
   [SerializeField] float bulletSpeed = 100.0f;
+  [SerializeField] uint ammo = 3;
+  [SerializeField] uint health = 3;
+
   [SerializeField] Vector2 maxMovement;
   [SerializeField] Vector2 minMovement;
+
+  [SerializeField] TextMeshProUGUI uiHealth;
+  [SerializeField] TextMeshProUGUI uiAmmo;
+
 
   // Start is called before the first frame update
   void Start()
@@ -25,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
     rb.gravityScale = 0.0f;
     timeUntilShootReady = 0.0f;
     crashing = false;
+
+    gameManager = FindObjectOfType<GameManager>();
   }
 
   Vector2 RestraintMovementFromCamera(Vector3 pos)
@@ -72,6 +84,7 @@ public class PlayerMovement : MonoBehaviour
     {
       return true;
     }
+
     return false;
   }
 
@@ -101,12 +114,23 @@ public class PlayerMovement : MonoBehaviour
     HandleShooting();
   }
 
+  void UpdateUi()
+	{
+    uiHealth.text = "Health: " + health;
+    uiAmmo.text = "Ammo: " + ammo;
+	}
+
   private void Update()
   {
-    if (!crashing)
+    if (gameManager.GameActive)
 		{
-      HandleInput();
-		}
+      if (!crashing)
+      {
+        HandleInput();
+      }
+
+      UpdateUi();
+    }
   }
 
   private void OnCollisionEnter2D(Collision2D collision)
