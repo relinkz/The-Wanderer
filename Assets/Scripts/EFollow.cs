@@ -3,11 +3,13 @@ using UnityEngine;
 public class EFollow : MonoBehaviour
 {
 	GameObject player;
+	Enemy enemyData;
 	[SerializeField] float speed;
 	// Start is called before the first frame update
 	void Start()
 	{
 		player = GameObject.FindGameObjectWithTag("Player");
+		enemyData = GetComponent<Enemy>();
 	}
 
 	void ApproachPlayer()
@@ -21,6 +23,9 @@ public class EFollow : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		ApproachPlayer();
+		if (enemyData.isAlive == true)
+		{
+			ApproachPlayer();
+		}
 	}
 }

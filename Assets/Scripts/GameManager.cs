@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -27,6 +28,16 @@ public class GameManager : MonoBehaviour
 		gameActive = true;
 		InvokeRepeating("RepeatSpawn", 0, 5);
 		menu.SetActive(false);
+	}
+
+	public void RestartGame(float waitUntilReload)
+	{
+		Invoke("RestartScene", waitUntilReload);
+	}
+
+	private void RestartScene()
+	{
+		SceneManager.LoadScene("SampleScene");
 	}
 	// Update is called once per frame
 	void Update()

@@ -3,7 +3,6 @@ using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
-	Rigidbody2D rb;
 	float timeUntilShootReady;
 	bool crashing;
 	GameManager gameManager;
@@ -25,14 +24,12 @@ public class PlayerMovement : MonoBehaviour
 
 	[SerializeField] TextMeshProUGUI uiHealth;
 	[SerializeField] TextMeshProUGUI uiAmmo;
-	
+
 	float reloadTimer;
 
 	// Start is called before the first frame update
 	void Start()
 	{
-		rb = GetComponent<Rigidbody2D>();
-		rb.gravityScale = 0.0f;
 		timeUntilShootReady = 0.0f;
 		reloadTimer = reloadTime;
 		crashing = false;
@@ -152,6 +149,14 @@ public class PlayerMovement : MonoBehaviour
 			{
 				HandleInput();
 			}
+			else
+			{
+				var pos = transform.position;
+				pos += Vector3.down * Time.deltaTime;
+				transform.position = pos;
+
+				gameManager.RestartGame(3);
+			}
 
 			UpdateUi();
 			HandleReloading();
@@ -160,9 +165,9 @@ public class PlayerMovement : MonoBehaviour
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		crashing = true;
-		rb.gravityScale = 1.0f;
-		rb.AddTorque(0.3f, ForceMode2D.Impulse);
-		GetComponent<BoxCollider2D>().enabled = false;
+		if (collision.gameObject.tag != "Dead")
+		{
+			crashing = true;
+		}
 	}
 }
